@@ -15,7 +15,11 @@
 
 使いまわせることを期待して課題に対して解決するよう作っています。
 
-## 参考文献等
+## Requirement
+
+- AWS SDK 用の `.aws/credentials` が設定されていること
+
+## Bibliography
 
 [こちら](./doc/REFERENCE_PUBS.md)
 
