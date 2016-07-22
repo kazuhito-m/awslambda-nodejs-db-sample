@@ -1,43 +1,43 @@
-var gulp = require('gulp');
-var zip = require('gulp-zip');
-var del = require('del');
-var install = require('gulp-install');
-var runSequence = require('run-sequence');
-var awsLambda = require('node-aws-lambda');
+const gulp = require('gulp');
+const zip = require('gulp-zip');
+const del = require('del');
+const install = require('gulp-install');
+const runSequence = require('run-sequence');
+const awsLambda = require('node-aws-lambda');
 
 // distディレクトリのクリーンアップと作成済みのdist.zipの削除
-gulp.task('clean', function(cb) {
-  del(['./dist', './dist.zip'], cb);
+gulp.task('clean', (cb) => {
+  return del(['./dist', './dist.zip'], cb);
 });
 
 // AWS Lambdaファンクション本体(index.js)をdistディレクトリにコピー
-gulp.task('js', function() {
+gulp.task('js', () => {
   return gulp.src('index.js')
     .pipe(gulp.dest('dist/'));
 });
 
 // AWS Lambdaファンクションのデプロイメントパッケージ(ZIPファイル)に含めるnode.jsパッケージをdistディレクトリにインストール
 // ({production: true} を指定して、開発用のパッケージを除いてインストールを実施)
-gulp.task('node-mods', function() {
+gulp.task('node-mods', () => {
   return gulp.src('./package.json')
     .pipe(gulp.dest('dist/'))
     .pipe(install({production: true}));
 });
 
 // デプロイメントパッケージの作成(distディレクトリをZIP化)
-gulp.task('zip', function() {
+gulp.task('zip', () => {
   return gulp.src(['dist/**/*', '!dist/package.json'])
     .pipe(zip('dist.zip'))
     .pipe(gulp.dest('./'));
 });
 
 // AWS Lambdaファンクションの登録(ZIPファイルのアップロード)
-// (既にFunctionが登録済みの場合はFunctionの内容を更新)
-gulp.task('upload', function(callback) {
+// (既にが登録済みの場合はの内容を更新)
+gulp.task('upload', (callback) => {
   awsLambda.deploy('./dist.zip', require("./lambda-config.js"), callback);
 });
 
-gulp.task('deploy', function(callback) {
+gulp.task('deploy', (callback) => {
   return runSequence(
     ['clean'],
     ['js', 'node-mods'],
