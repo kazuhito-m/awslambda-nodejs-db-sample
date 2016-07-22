@@ -17,7 +17,17 @@
 
 ## Requirement
 
+- Node.js : v0.12.7  or Later
+- npm : 2.11.3  or Later
 - AWS SDK 用の `.aws/credentials` が設定されていること
+
+## Setup for Develop
+
+- `npm install`
+
+## Deploy
+
+- `npm run deploy`
 
 ## Bibliography
 
