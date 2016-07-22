@@ -16,5 +16,13 @@
   "bugs": {
     "url": "https://github.com/kazuhito-m/awslambda-nodejs-db-sample/issues"
   },
-  "homepage": "https://github.com/kazuhito-m/awslambda-nodejs-db-sample#readme"
+  "homepage": "https://github.com/kazuhito-m/awslambda-nodejs-db-sample#readme",
+  "devDependencies": {
+    "del": "^2.2.1",
+    "gulp": "^3.9.1",
+    "gulp-install": "^0.6.0",
+    "gulp-zip": "^3.2.0",
+    "node-aws-lambda": "^0.1.8",
+    "run-sequence": "^1.2.2"
+  }
 }
