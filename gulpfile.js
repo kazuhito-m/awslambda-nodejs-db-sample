@@ -24,6 +24,18 @@ gulp.task('node-mods', () => {
     .pipe(install({production: true}));
 });
 
+// ORマッパー"sequelize"のソースファイル系コピー
+gulp.task('sequelize-srcs', () => {
+  return gulp.src('./models/*.js')
+    .pipe(gulp.dest('dist/models/'));
+});
+
+// ORマッパー"sequelize"の設定ファイル系コピー
+gulp.task('sequelize-config', () => {
+  return gulp.src('./config/*')
+    .pipe(gulp.dest('dist/config/'));
+});
+
 // デプロイメントパッケージの作成(distディレクトリをZIP化)
 gulp.task('zip', () => {
   return gulp.src(['dist/**/*', '!dist/package.json'])
@@ -40,7 +52,7 @@ gulp.task('upload', (callback) => {
 gulp.task('deploy', (callback) => {
   return runSequence(
     ['clean'],
-    ['js', 'node-mods'],
+    ['js', 'node-mods', 'sequelize-srcs', 'sequelize-config'],
     ['zip'],
     ['upload'],
     callback
