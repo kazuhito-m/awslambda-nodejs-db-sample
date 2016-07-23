@@ -6,25 +6,25 @@ module.exports = {
       'aws_product',
       {
         id: {
-          type: DataTypes.INTEGER,
+          type: Sequelize.INTEGER,
           primaryKey: true,
           autoIncrement: true
         },
-        product_name: DataTypes.STRING,
+        product_name: Sequelize.STRING,
         release_date: {
-          type: DataTypes.DATE
+          type: Sequelize.DATE
         },
         using: {
-          type: DataTypes.BOOLEAN,
+          type: Sequelize.BOOLEAN,
           defaultValue: false,
           allowNull: false
         },
         defficult_level: {
-          type: DataTypes.INTEGER,
+          type: Sequelize.INTEGER,
           defaultValue: 1,
           allowNull: false
         },
-        description: DataTypes.STRING
+        description: Sequelize.STRING
       }
     );
   },

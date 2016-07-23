@@ -3,7 +3,7 @@
     "username": "root",
     "password": "databasepassword",
     "database": "aws_infomations",
-    "host": "awslambda-nodejs-db-sample.ceaq871mbfez.ap-northeast-1.rds.amazonaws.com",
+    "host": "127.0.0.1",
     "dialect": "postgres",
     "protocol": "postgres",
     "port": 5432
@@ -21,7 +21,7 @@
     "username": "root",
     "password": "databasepassword",
     "database": "aws_infomations",
-    "host": "127.0.0.1",
+    "host": "awslambda-nodejs-db-sample.ceaq871mbfez.ap-northeast-1.rds.amazonaws.com",
     "dialect": "postgres",
     "protocol": "postgres",
     "port": 5432
