@@ -14,7 +14,7 @@ module.exports = {
         release_date: {
           type: Sequelize.DATE
         },
-        using: {
+        miura_use: {
           type: Sequelize.BOOLEAN,
           defaultValue: false,
           allowNull: false

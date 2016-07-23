@@ -23,7 +23,9 @@
   },
   "homepage": "https://github.com/kazuhito-m/awslambda-nodejs-db-sample#readme",
   "devDependencies": {
+    "bluebird": "^3.4.1",
     "del": "^2.2.1",
+    "fs": "0.0.2",
     "gulp": "^3.9.1",
     "gulp-install": "^0.6.0",
     "gulp-zip": "^3.2.0",
