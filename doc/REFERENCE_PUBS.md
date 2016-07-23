@@ -36,6 +36,9 @@
 
 - [カバレッジを取る](http://qiita.com/iwata-n@github/items/1e8f629eb5b429a49e6d)
 
+## Lambda -> RDS 間の通信許可
+
+- [AWS LambdaのVPCアクセス](http://qiita.com/Keisuke69/items/1d84684f0511a062e968)
 
 ## DBテストについて(単体テストでないもの)
 
@@ -47,6 +50,20 @@
   - [sequelizejs(本家サイト)](http://docs.sequelizejs.com/en/latest/)
 
 - [sequelizeのmigrationメモ](http://qiita.com/HirokiMiyaoka@github/items/972c42f1d5697045f70b)
+- [Sequelizeを使ってみた](http://polidog.jp/2015/12/19/sequelizejs/)
+- [Sequelizeでマイグレーションにファイルを使う方法](http://stackoverflow.com/questions/21105748/sequelize-js-how-to-use-migrations-and-sync)
+
+## ORマッパー
+
+- 種類的には…
+  - Sequelize(DBマイグレーションも出来る)
+  - Bookshelf.js
+  - Lovefiled
+  - Conclusions
+  - Waterline
+  - Knex(クエリビルダ的な性格)
+
+- [種類のレポート(新しい目)](https://www.sitepoint.com/3-javascript-orms-you-might-not-know/)
 
 ## リソースファイル系(と自分で決めたもの)の扱いについて
 
@@ -62,3 +79,4 @@
 ## 純粋JavaScript(EcmaScript)Tips
 
 - [配列forEach](http://ism1000ch.hatenablog.com/entry/2014/07/30/024635)
+
