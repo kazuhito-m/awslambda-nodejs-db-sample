@@ -38,7 +38,14 @@
 
 ## Lambda -> RDS 間の通信許可
 
+基本、普通に作る or 「以前の機能」であれば「RDSをIP全開放でないとアクセス出来ない」となる。
+
+これではセキュリティ的に問題で、本当は「Lambdaと"とあるIP"だけアクセス出来る」が理想。
+
+そのための手法をスクラップする。
+
 - [AWS LambdaのVPCアクセス](http://qiita.com/Keisuke69/items/1d84684f0511a062e968)
+- [AWS LambdaでVPC越しにRDSを見る方法](http://qiita.com/yoshidasts/items/a369f89d34f57ea67aad)
 
 ## DBテストについて(単体テストでないもの)
 
