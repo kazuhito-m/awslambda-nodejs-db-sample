@@ -12,7 +12,7 @@ gulp.task('clean', (cb) => {
 
 // AWS Lambdaファンクション本体(index.js)をdistディレクトリにコピー
 gulp.task('js', () => {
-  return gulp.src('index.js')
+  return gulp.src('*.js')
     .pipe(gulp.dest('dist/'));
 });
 
