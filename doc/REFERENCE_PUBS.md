@@ -87,4 +87,7 @@
 ## 純粋JavaScript(EcmaScript)Tips
 
 - [配列forEach](http://ism1000ch.hatenablog.com/entry/2014/07/30/024635)
-
+- [(無いけど)クラスの作り方](http://blog.naka-sys.okinawa/node-js-class/)
+- [(無いけど)クラスに対するプロパティの考え方](http://qiita.com/cocottejs/items/35e0edef71d8c0fc3348)
+- [例外の考え方](http://d.hatena.ne.jp/kazuhooku/20120420/1334891656)
+- ["use strict"（厳格モード）を使うべきか？](http://analogic.jp/use-strict/)
