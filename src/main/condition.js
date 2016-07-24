@@ -16,10 +16,10 @@ function Condition() {
 	function makeAccesserProductName(values) {
 		return {
 			enumerable: true,
-			set: function (value) {
+			set: (value) => {
 				values.productName = value;
 			},
-			get: function () {
+			get: () => {
 				return values.productName;
 			}
 		};
@@ -28,14 +28,14 @@ function Condition() {
 	function makeAccesserMiuraUse(values) {
 		return {
 			enumerable: true,
-			set: function (value) {
+			set: (value) => {
 				if (value == null || typeof value === 'boolean') {
 					values.miuraUse = value;
 				} else {
 					throw new TypeError('101');
 				}
 			},
-			get: function () {
+			get: () => {
 				return values.miuraUse;
 			}
 		};
