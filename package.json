@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/kazuhito-m/awslambda-nodejs-db-sample#readme",
   "devDependencies": {
-    "bluebird": "^3.4.1",
     "del": "^2.2.1",
     "gulp": "^3.9.1",
     "gulp-install": "^0.6.0",
@@ -33,9 +32,7 @@
     "sequelize-cli": "2.4.0"
   },
   "dependencies": {
-    "fs": "0.0.2",
     "pg": "^6.0.3",
-    "pg-hstore": "^2.3.2",
     "sequelize": "4.0.0-0"
   }
 }
