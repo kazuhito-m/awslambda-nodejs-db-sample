@@ -7,9 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "gulp clean",
     "deploy": "gulp deploy",
-    "mig_create": "sequelize migration:create",
-    "p_migrate": "sequelize db:migrate --env production",
-    "p_migrate_undo": "sequelize db:migrate:undo --env production"
+    "mig_create": "cd src/main/ && sequelize migration:create",
+    "p_migrate": "cd src/main/ && sequelize db:migrate --env production",
+    "p_migrate_undo": "cd src/main/ && sequelize db:migrate:undo --env production"
   },
   "repository": {
     "type": "git",
