@@ -18,7 +18,7 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       defficultLevel: {
-        type: Sequelize.NUMBER
+        type: Sequelize.INTEGER
       },
       description: {
         type: Sequelize.STRING
