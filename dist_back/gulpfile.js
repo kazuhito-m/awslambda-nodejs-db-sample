@@ -12,9 +12,7 @@ gulp.task('clean', (cb) => {
 
 // AWS Lambdaファンクション本体(index.js)をdistディレクトリにコピー
 gulp.task('js', () => {
-  return gulp.src(
-        [ 'src/main/*.js', 'src/main/models/*.js', 'src/main/config/*.json' ],
-        { base: 'src/main' })
+  return gulp.src('*.js')
     .pipe(gulp.dest('dist/'));
 });
 
@@ -24,6 +22,18 @@ gulp.task('node-mods', () => {
   return gulp.src('./package.json')
     .pipe(gulp.dest('dist/'))
     .pipe(install({production: true}));
+});
+
+// ORマッパー"sequelize"のソースファイル系コピー
+gulp.task('sequelize-srcs', () => {
+  return gulp.src('./models/*.js')
+    .pipe(gulp.dest('dist/models/'));
+});
+
+// ORマッパー"sequelize"の設定ファイル系コピー
+gulp.task('sequelize-config', () => {
+  return gulp.src('./config/*')
+    .pipe(gulp.dest('dist/config/'));
 });
 
 // デプロイメントパッケージの作成(distディレクトリをZIP化)
@@ -42,7 +52,7 @@ gulp.task('upload', (callback) => {
 gulp.task('deploy', (callback) => {
   return runSequence(
     ['clean'],
-    ['js', 'node-mods'],
+    ['js', 'node-mods', 'sequelize-srcs', 'sequelize-config'],
     ['zip'],
     ['upload'],
     callback
