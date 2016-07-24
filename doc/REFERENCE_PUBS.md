@@ -59,6 +59,7 @@
 - [sequelizeのmigrationメモ](http://qiita.com/HirokiMiyaoka@github/items/972c42f1d5697045f70b)
 - [Sequelizeを使ってみた](http://polidog.jp/2015/12/19/sequelizejs/)
 - [Sequelizeでマイグレーションにファイルを使う方法](http://stackoverflow.com/questions/21105748/sequelize-js-how-to-use-migrations-and-sync)
+- [Node, Postgres, and Sequelize](http://mherman.org/blog/2015/10/22/node-postgres-sequelize/#.V5QfWXWLTec)
 
 ## ORマッパー
 
