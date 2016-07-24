@@ -4,25 +4,24 @@ var Promise = require('bluebird');
 var fs = require('fs');
 
 module.exports = {
-    up: function (queryInterface, Sequelize) {
-
+    up: (queryInterface, Sequelize) => {
         return Promise
             .resolve()
-            .then(function() {
+            .then(() => {
                 return fs.readFileSync(__dirname + '/sql/import-initail-data.sql', 'utf-8');
             })
-            .then(function (initialSchema) {
+            .then((initialSchema) => {
                 return queryInterface.sequelize.query(initialSchema);
             })
     },
 
-    down: function (queryInterface, Sequelize) {
+    down: (queryInterface, Sequelize) => {
         return Promise
             .resolve()
-            .then(function() {
+            .then(() => {
                 return fs.readFileSync(__dirname + '/sql/drop-initail-data.sql', 'utf-8');
             })
-            .then(function (dropSql) {
+            .then((dropSql) => {
                 return queryInterface.sequelize.query(dropSql);
             });
     }
