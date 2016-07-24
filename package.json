@@ -30,12 +30,12 @@
     "gulp-zip": "^3.2.0",
     "node-aws-lambda": "^0.1.8",
     "run-sequence": "^1.2.2",
-    "sequelize-cli": "^2.4.0"
+    "sequelize-cli": "2.4.0"
   },
   "dependencies": {
+    "fs": "0.0.2",
     "pg": "^6.0.3",
     "pg-hstore": "^2.3.2",
-    "fs": "0.0.2",
-    "sequelize": "^3.23.6"
+    "sequelize": "4.0.0-0"
   }
 }
