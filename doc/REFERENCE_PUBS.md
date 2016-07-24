@@ -12,7 +12,7 @@
 - [Coffie Scriptの場合](http://qiita.com/penta515/items/450129b6e994d348fa81)
 - [gulp-awslambdaでデプロイする場合](http://qiita.com/u-minor/items/17802910bcf54e10625f)
 - [始めの一歩](https://osdn.jp/magazine/12/04/11/0618228/2)
-- []()
+- [gulp でディレクトリ構造を維持したコピー](http://akabeko.me/blog/2015/01/gulp-copy-keep-dir-structure/)
 - []()
 - []()
 - []()
