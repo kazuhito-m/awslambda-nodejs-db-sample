@@ -15,13 +15,13 @@ function Condition() {
 Condition.prototype.setAndValidation = (event) => {
 
 	const productName = nullize(event.productName);
-	if (isTypeNullable('string', productName)) {
+	if (!isTypeNullable('string', productName)) {
 		return 101;
 	}
 	this.productName = productName;
 
 	const miuraUse = nullize(event.miuraUse);
-	if (isTypeNullable('boolean', productName)) {
+	if (!isTypeNullable('boolean', productName)) {
 		return 102;
 	}
 	this.miuraUse = miuraUse;
