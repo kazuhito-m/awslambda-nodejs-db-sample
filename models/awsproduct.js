@@ -4,7 +4,7 @@ module.exports = function(sequelize, DataTypes) {
     productName: DataTypes.STRING,
     releaseDate: DataTypes.DATE,
     miuraUse: DataTypes.BOOLEAN,
-    defficultLevel: DataTypes.NUMBER,
+    defficultLevel: DataTypes.INTEGER,
     description: DataTypes.STRING
   }, {
     classMethods: {
