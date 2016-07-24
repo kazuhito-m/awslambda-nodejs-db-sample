@@ -2,8 +2,7 @@
 
 const Condition = require('./condition');
 const Converter = require('./converter');
-
-process.env.NODE_ENV = 'production';  // 外部化してないので、無理にここに書いておく。
+const XxxDao = require('./xxxdao');
 
 exports.handler = (event, context) => {
 
@@ -17,23 +16,9 @@ exports.handler = (event, context) => {
     return;
   }
 
-  const models = require('./models/index');
-
-  // ORM用の「WHERE条件オブジェクト」作り。
-  const wheres = {};
-  if (condition.productName !== null) {
-    wheres.productName = { $iLike: '%' + condition.productName + '%' };
-  }
-  if (condition.miuraUse !== null) {
-    wheres.miuraUse = condition.miuraUse;
-  }
-  const findSettings = {};
-  if (Object.keys(wheres).length > 0) {
-    findSettings.where = wheres;
-  }
-
-  // 検索を実行し、結果のオブジェクトをJSON化してレスポンスとして返す。
-  models.AwsProduct.findAll(findSettings).then((records) => {
+  // ORM用をラップしたDaoを作り検索を実行、結果のオブジェクトをレスポンスとして返す。
+  const dao = new XxxDao();
+  dao.findAwsProduct(condition, (records) => {
     context.succeed({ result: 0, data: records });
   });
 
