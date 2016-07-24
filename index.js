@@ -1,13 +1,17 @@
 'use strict';
-process.env.NODE_ENV = 'production';  // 外部化してないので、無理にここに書いておく。
+
 const Condition = require('./condition');
+const Converter = require('./converter');
+
+process.env.NODE_ENV = 'production';  // 外部化してないので、無理にここに書いておく。
 
 exports.handler = (event, context) => {
 
   // API Gateway & Lambda に来た「JSONパラメータ」を
   // バリデーションかつ検索用オブジェクト化。
+  const converter = new Converter();
   const condition = new Condition();
-  const errCode = condition.setAndValidation(event, condition); // FIXME 自分を引数にせなあかんとか…腐ってる
+  const errCode = converter.setAndValidation(event, condition);
   if (errCode !== 0) {
     context.succeed({ result: errCode });
     return;
@@ -17,7 +21,6 @@ exports.handler = (event, context) => {
 
   // ORM用の「WHERE条件オブジェクト」作り。
   const wheres = {};
-  let condCount = 0;
   if (condition.productName !== null) {
     wheres.productName = { $iLike: '%' + condition.productName + '%' };
   }

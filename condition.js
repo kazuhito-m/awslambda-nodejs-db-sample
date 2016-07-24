@@ -1,6 +1,8 @@
 'use strict';
 /**
  * 検索条件VOクラス。
+ * 送信値 -> X -> DB検索条件(where句) 
+ * というような中間的な存在を担う。
  */
 function Condition() {
 
@@ -39,45 +41,6 @@ function Condition() {
 		};
 	}
 
-}
-
-/**
- * Conditionのインスタンスに、API Gateway & Lambda で飛んできた「eventオブジェクt」の値をセットする。
- * 出来ない場合、0以外の数値を返す。
- */
-Condition.prototype.setAndValidation = (event, cond) => {
-
-	const productName = nullize(event.productName);
-	if (!isTypeNullable('string', productName)) {
-		return 101;
-	}
-	cond.productName = productName;
-
-	const miuraUse = nullize(event.miuraUse);
-	if (!isTypeNullable('boolean', miuraUse)) {
-		return 102;
-	}
-	cond.miuraUse = miuraUse;
-
-	return 0;
-}
-
-/**
- * undifind や empty など「値なし」を表す値をすべてnullにおしなべる。
- */
-function nullize(value) {
-	if (value === undefined) {
-		return null;
-	}
-	return value;
-}
-
-/**
- * 指定したタイプに合致しているかのチェック。
- * (ただし、nullは許す)
- */
-function isTypeNullable(typeName, value) {
-	return (value === null || typeof value === typeName);
 }
 
 module.exports = Condition;
