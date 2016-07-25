@@ -12,48 +12,53 @@ const awsLambda = require('node-aws-lambda');
 
 // 定数的pathマップ
 const paths = {
-  mains: "./src/main/*.js",
-  srcs: "./src/**",
-  work_dir: "./work",
-  work_mains: "./work/main/*.js",
-  work_tests: "./work/test/*.js",
-  ps_tests: "./work/power-assert-test/*.js",
-  ps_test_dir: "./work/power-assert-test/",
-  coverage_dir: "./coverage"
+  mains: './src/main/*.js',
+  main_dir: './src/main',
+  models: './src/main/models/*.js',
+  configs: 'src/main/config/*.json',
+  srcs: './src/**',
+  work_dir: './work',
+  work_mains: './work/main/*.js',
+  work_tests: './work/test/*.js',
+  ps_tests: './work/power-assert-test/*.js',
+  ps_test_dir: './work/power-assert-test/',
+  coverage_dir: './coverage',
+  dist_dir: './work/dist',
+  dist_all: './work/dist/**/*'
 };
 
 // distディレクトリのクリーンアップと作成済みのdist.zipの削除
 gulp.task('clean', (cb) => {
-  return del(['./dist', './dist.zip'], cb);
+  return del([paths.work_dir, paths.coverage_dir], cb);
 });
 
 // AWS Lambdaファンクション本体(index.js)をdistディレクトリにコピー
 gulp.task('js', () => {
   return gulp.src(
-    ['src/main/*.js', 'src/main/models/*.js', 'src/main/config/*.json'],
-    { base: 'src/main' })
-    .pipe(gulp.dest('dist/'));
+    [paths.mains, paths.models, paths.configs],
+    { base: paths.main_dir })
+    .pipe(gulp.dest(paths.dist_dir));
 });
 
 // AWS Lambdaファンクションのデプロイメントパッケージ(ZIPファイル)に含めるnode.jsパッケージをdistディレクトリにインストール
 // ({production: true} を指定して、開発用のパッケージを除いてインストールを実施)
 gulp.task('node-mods', () => {
   return gulp.src('./package.json')
-    .pipe(gulp.dest('dist/'))
+    .pipe(gulp.dest(paths.dist_dir))
     .pipe(install({ production: true }));
 });
 
 // デプロイメントパッケージの作成(distディレクトリをZIP化)
 gulp.task('zip', () => {
-  return gulp.src(['dist/**/*', '!dist/package.json'])
+  return gulp.src([paths.dist_all, '!' + paths.dist_dir + '/package.json'])
     .pipe(zip('dist.zip'))
-    .pipe(gulp.dest('./'));
+    .pipe(gulp.dest(paths.work_dir));
 });
 
 // AWS Lambdaファンクションの登録(ZIPファイルのアップロード)
 // (既にが登録済みの場合はの内容を更新)
 gulp.task('upload', (callback) => {
-  awsLambda.deploy('./dist.zip', require("./lambda-config.js"), callback);
+  awsLambda.deploy(paths.work_dir + '/dist.zip', require("./lambda-config.js"), callback);
 });
 
 gulp.task('deploy', (callback) => {
@@ -68,11 +73,7 @@ gulp.task('deploy', (callback) => {
 
 // テスト周り
 
-gulp.task('test-clean', (cb) => {
-  return del([paths.work_dir, paths.coverage_dir], cb);
-});
-
-gulp.task('test-src-copy', ['test-clean'], () => {
+gulp.task('test-src-copy', ['clean'], () => {
   mkdirp(paths.work_dir);
   return gulp.src([paths.srcs])
     .pipe(gulp.dest(paths.work_dir));
@@ -100,3 +101,4 @@ gulp.task('test', ['test-mapping-coverage-src'], () => {
     .pipe(istanbul.writeReports())
     .pipe(istanbul.enforceThresholds({ thresholds: { global: 10 } }));
 });
+  
