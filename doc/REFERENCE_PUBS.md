@@ -80,7 +80,11 @@
 - [mocha & shuld導入](http://www.ie-kau.net/entry/2016/05/10/mocha_%2B_should_js%E3%81%A7Node_js%E3%81%AE%E3%83%86%E3%82%B9%E3%83%88%E3%82%92%E6%9B%B8%E3%81%8F)
   - 今回、結果確認はよりUnitTest寄りの`power-assert`でやろうと思っているので、shuldは見送り
 - [mocha + power-assert環境の構築](http://qiita.com/gitseitanaka/items/ea47d261284879a1d774)
-  
+- [intelli-espower-loader本家](https://github.com/power-assert-js/intelli-espower-loader)
+- [power-assertの使い方](http://efcl.info/2014/0406/res3809/)
+- [node.jsでテストのカバレッジを取る](http://qiita.com/iwata-n@github/items/1e8f629eb5b429a49e6d)
+- [ChaiJS公式](http://qiita.com/iwata-n@github/items/1e8f629eb5b429a49e6d)
+
 ## リソースファイル系(と自分で決めたもの)の扱いについて
 
 - [Node.jsでのメッセージリソース管理を考える](http://qiita.com/okunishinishi@github/items/68b3c8e12ea8f5741387)
@@ -104,3 +108,6 @@
 - [クラスの落とし穴シリーズ](http://qiita.com/cocottejs/items/f7cb629ad17de04bf2fc)
 - [Node.js : exports と module.exports の違い（解説編）](http://d.hatena.ne.jp/jovi0608/20111226/1324879536)
 - [ES6におけるimportとrequireの扱い](http://sakamock.hatenablog.com/entry/2016/02/03/091623)
+  - babelを使わない限り、nodeをいくら最新にしてもES6が完全に使えるわけではない…ので今回はレガシーな記述で。
+- [ES6使う時のbabel周り(英語)](http://mammal.io/articles/using-es6-today/)
+- [Node-v0.12からデフォルトでES6の一部が使えるようになった](http://d.hatena.ne.jp/jovi0608/20140418/1397789018)
