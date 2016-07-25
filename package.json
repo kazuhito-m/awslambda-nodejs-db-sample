@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "AWS Lambda and Node.js and DB(PostgreSQL) Sample",
   "main": "index.js",
+  "directories": {
+    "test": "test/"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "gulp test",
     "clean": "gulp clean",
     "deploy": "gulp deploy",
     "mig_create": "cd src/main/ && sequelize migration:create",
@@ -27,7 +30,10 @@
     "gulp": "^3.9.1",
     "gulp-install": "^0.6.0",
     "gulp-zip": "^3.2.0",
+    "intelli-espower-loader": "^1.0.1",
+    "mocha": "^2.5.3",
     "node-aws-lambda": "^0.1.8",
+    "power-assert": "^1.4.1",
     "run-sequence": "^1.2.2",
     "sequelize-cli": "2.4.0"
   },

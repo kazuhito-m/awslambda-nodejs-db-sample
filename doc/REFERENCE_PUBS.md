@@ -60,6 +60,8 @@
 - [Sequelizeを使ってみた](http://polidog.jp/2015/12/19/sequelizejs/)
 - [Sequelizeでマイグレーションにファイルを使う方法](http://stackoverflow.com/questions/21105748/sequelize-js-how-to-use-migrations-and-sync)
 - [Node, Postgres, and Sequelize](http://mherman.org/blog/2015/10/22/node-postgres-sequelize/#.V5QfWXWLTec)
+- [sequelizeによるマイグレーションの方法](http://needtec.exblog.jp/22741115/)
+- [Sequelize本家サイト](http://docs.sequelizejs.com/en/latest/docs/instances/)
 
 ## ORマッパー
 
@@ -73,6 +75,12 @@
 
 - [種類のレポート(新しい目)](https://www.sitepoint.com/3-javascript-orms-you-might-not-know/)
 
+## テスト周り
+
+- [mocha & shuld導入](http://www.ie-kau.net/entry/2016/05/10/mocha_%2B_should_js%E3%81%A7Node_js%E3%81%AE%E3%83%86%E3%82%B9%E3%83%88%E3%82%92%E6%9B%B8%E3%81%8F)
+  - 今回、結果確認はよりUnitTest寄りの`power-assert`でやろうと思っているので、shuldは見送り
+- [mocha + power-assert環境の構築](http://qiita.com/gitseitanaka/items/ea47d261284879a1d774)
+  
 ## リソースファイル系(と自分で決めたもの)の扱いについて
 
 - [Node.jsでのメッセージリソース管理を考える](http://qiita.com/okunishinishi@github/items/68b3c8e12ea8f5741387)
@@ -91,3 +99,8 @@
 - [(無いけど)クラスに対するプロパティの考え方](http://qiita.com/cocottejs/items/35e0edef71d8c0fc3348)
 - [例外の考え方](http://d.hatena.ne.jp/kazuhooku/20120420/1334891656)
 - ["use strict"（厳格モード）を使うべきか？](http://analogic.jp/use-strict/)
+- [Google流 JavaScript におけるクラス定義の実現方法](http://www.yunabe.jp/docs/javascript_class_in_google.html)
+- [export(本家マニュアル)](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Statements/export)
+- [クラスの落とし穴シリーズ](http://qiita.com/cocottejs/items/f7cb629ad17de04bf2fc)
+- [Node.js : exports と module.exports の違い（解説編）](http://d.hatena.ne.jp/jovi0608/20111226/1324879536)
+- [ES6におけるimportとrequireの扱い](http://sakamock.hatenablog.com/entry/2016/02/03/091623)
