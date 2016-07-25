@@ -32,7 +32,7 @@ function Condition() {
 				if (value == null || typeof value === 'boolean') {
 					values.miuraUse = value;
 				} else {
-					throw new TypeError('101');
+					throw new TypeError('プロパティ : miuraUse は boolean 型以外はsetできません。');
 				}
 			},
 			get: () => {
