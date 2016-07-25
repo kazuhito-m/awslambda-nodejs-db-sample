@@ -4,7 +4,7 @@
   "description": "AWS Lambda and Node.js and DB(PostgreSQL) Sample",
   "main": "index.js",
   "directories": {
-    "test": "test/"
+    "test": "src/test/"
   },
   "scripts": {
     "test": "gulp test",
