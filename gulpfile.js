@@ -29,13 +29,14 @@ const paths = {
     ps_tests: './work/power-assert-test/*.js',
     ps_test_dir: './work/power-assert-test/',
     coverage_dir: './coverage',
+    report_dir: './report',
     dist_dir: './work/dist',
     dist_all: './work/dist/**/*'
 };
 
 // distディレクトリのクリーンアップと作成済みのdist.zipの削除
 gulp.task('clean', (cb) => {
-    return del([paths.work_dir, paths.coverage_dir], cb);
+    return del([paths.work_dir, paths.coverage_dir, paths.report_dir], cb);
 });
 
 // AWS Lambdaファンクション本体(index.js)をdistディレクトリにコピー
@@ -80,28 +81,28 @@ gulp.task('deploy', (callback) => {
 // テスト周り
 
 // ためしに「テスト開始前に本体側をソースフォーマット」してみる。具合が悪けりゃ変える。
-gulp.task('test-src-copy', ['clean', 'format'], () => {
+gulp.task('test-src-copy', () => {
     mkdirp(paths.work_dir);
     return gulp.src([paths.srcs])
         .pipe(gulp.dest(paths.work_dir));
 });
 
 // 普通のassertで書かれたテストを、pwoer-assertで書いたテストへトランスパイル。
-gulp.task('test-transpile-power-assert', ['test-src-copy'], () => {
+gulp.task('test-transpile-power-assert', () => {
     return gulp.src(paths.work_tests)
         .pipe(espower())
         .pipe(gulp.dest(paths.ps_test_dir));
 });
 
 // カバレッジに必要な装備の初期設定。
-gulp.task('test-mapping-coverage-src', ['test-transpile-power-assert'], () => {
+gulp.task('test-mapping-coverage-src', () => {
     return gulp.src([paths.work_mains])
         .pipe(istanbul())
         .pipe(istanbul.hookRequire());
 });
 
 // テスト実行。その際、テストが成功していればカバレッジレポートを作成。
-gulp.task('test', ['test-mapping-coverage-src'], () => {
+gulp.task('unit-test', () => {
     return gulp.src([paths.ps_tests], {
             read: false
         })
@@ -116,6 +117,15 @@ gulp.task('test', ['test-mapping-coverage-src'], () => {
             }
         }));
 });
+
+gulp.task('test', (cb) => {
+    return runSequence(
+        ['clean'], ['clean', 'format'], ['test-src-copy'], ['test-transpile-power-assert'], ['test-mapping-coverage-src'], ['unit-test'], ['static-analysis-plato'],
+        cb
+    );
+});
+
+
 
 // ソースフォーマット周り
 
@@ -147,24 +157,25 @@ gulp.task('format', ['static-analysis-eslint'], (cb) => {
 // ESLintは「コンパイルがわり」に使う(構文おかしかったらコケてくれるように)
 gulp.task('static-analysis-eslint', () => {
     return gulp.src([paths.mains])
-        .pipe(plumber({
-            // エラーをハンドル
-            errorHandler: (error) => {
-                const taskName = 'eslint';
-                const title = '[task]' + taskName + ' ' + error.plugin;
-                const errorMsg = 'error: ' + error.message;
-                // ターミナルにエラーを出力
-                console.error(title + '\n' + errorMsg);
-            }
-        }))
+        // .pipe(plumber({
+        //     // エラーをハンドル
+        //     errorHandler: (error) => {
+        //         const taskName = 'eslint';
+        //         const title = '[task]' + taskName + ' ' + error.plugin;
+        //         const errorMsg = 'error: ' + error.message;
+        //         // ターミナルにエラーを出力
+        //         console.error(title + '\n' + errorMsg);
+        //     }
+        // }))
         .pipe(eslint({
             useEslintrc: true
         })) // .eslintrc を参照
         .pipe(eslint.format())
         .pipe(eslint.failOnError())
-        .pipe(plumber.stop());
+        // .pipe(plumber.stop());
 });
 
+// Platoは「テスト終わった後の解析」に使用する。
 gulp.task('static-analysis-plato', () => {
     return gulp.src(paths.mains)
         .pipe(plato('report', {
