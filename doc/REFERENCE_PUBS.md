@@ -12,11 +12,15 @@
 - [Coffie Scriptの場合](http://qiita.com/penta515/items/450129b6e994d348fa81)
 - [gulp-awslambdaでデプロイする場合](http://qiita.com/u-minor/items/17802910bcf54e10625f)
 - [始めの一歩](https://osdn.jp/magazine/12/04/11/0618228/2)
+
+## guip回り
+
+- [run-sequence](https://www.npmjs.com/package/run-sequence)
 - [gulp でディレクトリ構造を維持したコピー](http://akabeko.me/blog/2015/01/gulp-copy-keep-dir-structure/)
-- []()
-- []()
-- []()
-- []()
+- [タスクランナーgulp.js最速入門](http://blog.anatoo.jp/entry/20140420/1397995711)
+- [gulpタスク実行中にエラーが出たらデスクトップ通知を出す](http://qiita.com/nakajmg/items/8add9c58ea28a8f31eed)
+- [gulpタスクを終了させない為の「gulp-plumber」](http://blog.webcreativepark.net/2014/05/14-112523.html)
+- [途中のタスクが死ねば止まるが、watchは止まらない](http://chaika.hatenablog.com/entry/2015/09/10/070000)
 
 ## AWS Lambda & API Gateway の基本的なところ
 
@@ -97,6 +101,9 @@
    
 - [gulp-plato(公式)](https://github.com/sindresorhus/gulp-plato)
 - [platoによるコードメトリックスの収集](http://needtec.exblog.jp/22719385/)
+  - ESLintを使いたいのだが、platoの静的解析機構がjshintのため、しょうがなくその仕込み
+    - [jshintに es6 を指定する方法](http://stackoverflow.com/questions/27441803/why-does-jshint-throw-a-warning-if-i-am-using-const)
+    - [JSHint Options](http://jshint.com/docs/options/)  
 
 ## リソースファイル系(と自分で決めたもの)の扱いについて
 
