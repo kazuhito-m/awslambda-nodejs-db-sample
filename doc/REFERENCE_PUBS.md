@@ -85,6 +85,14 @@
 - [node.jsでテストのカバレッジを取る](http://qiita.com/iwata-n@github/items/1e8f629eb5b429a49e6d)
 - [ChaiJS公式](http://qiita.com/iwata-n@github/items/1e8f629eb5b429a49e6d)
 
+## 静的解析
+
+### ESLint系
+
+- [gulp で eslint 設定とコード チェック環境の共有](http://qiita.com/ynunokawa/items/5471ff84c83104450ecb)
+- [http://www.npmtrends.com/eslint-plugin-node](https://www.versioneye.com/nodejs/eslint-plugin-node/1.4.0)
+  - node.jsをチェックするには、nodeのバージョンを教えないといけないので、`package.json` に `engings` 指定が必要
+
 ## リソースファイル系(と自分で決めたもの)の扱いについて
 
 - [Node.jsでのメッセージリソース管理を考える](http://qiita.com/okunishinishi@github/items/68b3c8e12ea8f5741387)
