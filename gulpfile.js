@@ -10,6 +10,8 @@ const install = require('gulp-install');
 const runSequence = require('run-sequence');
 const awsLambda = require('node-aws-lambda');
 const prettify = require('gulp-jsbeautifier');
+const eslint = require('gulp-eslint');
+const plumber = require('gulp-plumber');
 
 // 定数的pathマップ
 const paths = {
@@ -113,7 +115,7 @@ gulp.task('test', ['test-mapping-coverage-src'], () => {
         }));
 });
 
-// 静的解析・ソースキープ周り
+// ソースフォーマット周り
 
 gulp.task('src-format', function() {
     return gulp.src(
@@ -135,4 +137,26 @@ gulp.task('format', (cb) => {
         ['src-format', 'settings-format'],
         cb
     );
+});
+
+// 静的解析
+
+gulp.task('static-analysis-eslint', () => {
+    return gulp.src([paths.mains])
+        .pipe(plumber({
+            // エラーをハンドル
+            errorHandler: (error) => {
+                const taskName = 'eslint';
+                const title = '[task]' + taskName + ' ' + error.plugin;
+                const errorMsg = 'error: ' + error.message;
+                // ターミナルにエラーを出力
+                console.error(title + '\n' + errorMsg);
+            }
+        }))
+        .pipe(eslint({
+            useEslintrc: true
+        })) // .eslintrc を参照
+        .pipe(eslint.format())
+        .pipe(eslint.failOnError())
+        .pipe(plumber.stop());
 });

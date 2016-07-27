@@ -6,6 +6,9 @@
   "directories": {
     "test": "src/test/"
   },
+  "engines":{ 
+    "node" : ">=6.3.1" 
+  },
   "scripts": {
     "test": "gulp test",
     "clean": "gulp clean",
@@ -27,12 +30,15 @@
   "homepage": "https://github.com/kazuhito-m/awslambda-nodejs-db-sample#readme",
   "devDependencies": {
     "del": "^2.2.1",
+    "eslint-plugin-node": "^2.0.0",
     "gulp": "^3.9.1",
+    "gulp-eslint": "^3.0.1",
     "gulp-espower": "^1.0.2",
     "gulp-install": "^0.6.0",
     "gulp-istanbul": "^1.0.0",
     "gulp-jsbeautifier": "^2.0.3",
     "gulp-mocha": "^2.2.0",
+    "gulp-plumber": "^1.1.0",
     "gulp-util": "^3.0.7",
     "gulp-zip": "^3.2.0",
     "intelli-espower-loader": "^1.0.1",
