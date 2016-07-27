@@ -132,7 +132,8 @@ gulp.task('settings-format', function() {
         .pipe(gulp.dest('./'));
 });
 
-gulp.task('format', (cb) => {
+// コードフォーマットがズタズタにならないため、事前にESLintでチェック。
+gulp.task('format', ['static-analysis-eslint'], (cb) => {
     return runSequence(
         ['src-format', 'settings-format'],
         cb
@@ -141,6 +142,7 @@ gulp.task('format', (cb) => {
 
 // 静的解析
 
+// ESLintは「コンパイルがわり」に使う(構文おかしかったらコケてくれるように)
 gulp.task('static-analysis-eslint', () => {
     return gulp.src([paths.mains])
         .pipe(plumber({
