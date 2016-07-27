@@ -16,7 +16,7 @@ const paths = {
     mains: './src/main/*.js',
     main_dir: './src/main',
     models: './src/main/models/*.js',
-    configs: 'src/main/config/*.json',
+    configs: 'src/main/config/*',
     srcs: './src/**',
     work_dir: './work',
     work_mains: './work/main/*.js',
@@ -114,7 +114,10 @@ gulp.task('test', ['test-mapping-coverage-src'], () => {
 // 静的解析・ソースキープ周り
 
 gulp.task('src-format', function() {
-    gulp.src([paths.srcs + '/*.js', './*.js'])
+      return gulp.src(
+            [paths.mains, paths.configs], {
+                base: paths.main_dir
+            })
         .pipe(prettify())
-        .pipe(gulp.dest('./'));
+        .pipe(gulp.dest(paths.main_dir));
 });
