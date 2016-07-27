@@ -75,7 +75,8 @@ gulp.task('deploy', (callback) => {
 
 // テスト周り
 
-gulp.task('test-src-copy', ['clean'], () => {
+// ためしに「テスト開始前に本体側をソースフォーマット」してみる。具合が悪けりゃ変える。
+gulp.task('test-src-copy', ['clean', 'format'], () => {
     mkdirp(paths.work_dir);
     return gulp.src([paths.srcs])
         .pipe(gulp.dest(paths.work_dir));
@@ -115,7 +116,7 @@ gulp.task('test', ['test-mapping-coverage-src'], () => {
 // 静的解析・ソースキープ周り
 
 gulp.task('src-format', function() {
-      return gulp.src(
+    return gulp.src(
             [paths.srcs], {
                 base: paths.src_dir
             })
@@ -124,7 +125,7 @@ gulp.task('src-format', function() {
 });
 
 gulp.task('settings-format', function() {
-      return gulp.src(['./*.js'])
+    return gulp.src(['./*.js'])
         .pipe(prettify())
         .pipe(gulp.dest('./'));
 });
@@ -135,4 +136,3 @@ gulp.task('format', (cb) => {
         cb
     );
 });
-
