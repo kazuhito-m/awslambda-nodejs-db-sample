@@ -12,6 +12,8 @@ const awsLambda = require('node-aws-lambda');
 const prettify = require('gulp-jsbeautifier');
 const eslint = require('gulp-eslint');
 const plumber = require('gulp-plumber');
+const plato = require('gulp-plato');
+
 
 // 定数的pathマップ
 const paths = {
@@ -161,4 +163,13 @@ gulp.task('static-analysis-eslint', () => {
         .pipe(eslint.format())
         .pipe(eslint.failOnError())
         .pipe(plumber.stop());
+});
+
+gulp.task('static-analysis-plato', () => {
+    return gulp.src(paths.mains)
+        .pipe(plato('report', {
+            complexity: {
+                trycatch: true
+            }
+        }));
 });
