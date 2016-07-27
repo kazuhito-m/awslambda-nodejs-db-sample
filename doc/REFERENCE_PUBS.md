@@ -93,6 +93,11 @@
 - [http://www.npmtrends.com/eslint-plugin-node](https://www.versioneye.com/nodejs/eslint-plugin-node/1.4.0)
   - node.jsをチェックするには、nodeのバージョンを教えないといけないので、`package.json` に `engings` 指定が必要
 
+### Plato系
+   
+- [gulp-plato(公式)](https://github.com/sindresorhus/gulp-plato)
+- [platoによるコードメトリックスの収集](http://needtec.exblog.jp/22719385/)
+
 ## リソースファイル系(と自分で決めたもの)の扱いについて
 
 - [Node.jsでのメッセージリソース管理を考える](http://qiita.com/okunishinishi@github/items/68b3c8e12ea8f5741387)
