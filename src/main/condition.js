@@ -8,9 +8,6 @@ function Condition() {
 
     const values = {}; // 内部プロパティ変数を貯める場所。
 
-    Object.defineProperty(this, 'productName', makeAccesserProductName(values));
-    Object.defineProperty(this, 'miuraUse', makeAccesserMiuraUse(values));
-
     // FIXME プロパティを実現するのに…こんなに複雑なことしなくても本当は行けるはず…。
 
     function makeAccesserProductName(values) {
@@ -40,6 +37,9 @@ function Condition() {
             }
         };
     }
+
+    Object.defineProperty(this, 'productName', makeAccesserProductName(values));
+    Object.defineProperty(this, 'miuraUse', makeAccesserMiuraUse(values));
 
 }
 

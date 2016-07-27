@@ -5,27 +5,6 @@
  */
 function Converter() {
 
-    /**
-     * Conditionのインスタンスに、API Gateway & Lambda で飛んできた「eventオブジェクt」の値をセットする。
-     * 出来ない場合、0以外の数値を返す。
-     */
-    this.setAndValidation = (event, cond) => {
-
-        const productName = nullize(event.productName);
-        if (!isTypeNullable('string', productName)) {
-            return 101;
-        }
-        cond.productName = productName;
-
-        const miuraUse = nullize(event.miuraUse);
-        if (!isTypeNullable('boolean', miuraUse)) {
-            return 102;
-        }
-        cond.miuraUse = miuraUse;
-
-        return 0;
-    }
-
     // ユティリティメソッド。
 
     /**
@@ -45,6 +24,30 @@ function Converter() {
     function isTypeNullable(typeName, value) {
         return (value === null || typeof value === typeName);
     }
+
+    // public メソッド群。
+
+    /**
+     * Conditionのインスタンスに、API Gateway & Lambda で飛んできた「eventオブジェクt」の値をセットする。
+     * 出来ない場合、0以外の数値を返す。
+     */
+    this.setAndValidation = (event, cond) => {
+
+        const productName = nullize(event.productName);
+        if (!isTypeNullable('string', productName)) {
+            return 101;
+        }
+        cond.productName = productName;
+
+        const miuraUse = nullize(event.miuraUse);
+        if (!isTypeNullable('boolean', miuraUse)) {
+            return 102;
+        }
+        cond.miuraUse = miuraUse;
+
+        return 0;
+    };
+
 
 }
 

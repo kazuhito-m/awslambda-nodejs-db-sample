@@ -11,19 +11,6 @@ function XxxDao() {
     process.env.NODE_ENV = 'production'; // 外部化してないので、無理にここに書いておく。
     this.models = require('./models/index');
 
-    /**
-     * Conditionのインスタンスに、API Gateway & Lambda で飛んできた「eventオブジェクt」の値をセットする。
-     * 出来ない場合、0以外の数値を返す。
-     */
-    this.findAwsProduct = (condition, callback) => {
-        // ORM用の「WHERE条件オブジェクト」作り。
-        const findSettings = makeFindSettings(condition);
-        // 検索を実行し、結果のオブジェクトをコールバックに返す
-        this.models.AwsProduct.findAll(findSettings).then((records) => {
-            callback(records);
-        });
-    }
-
     // private関数
 
     /**
@@ -48,6 +35,21 @@ function XxxDao() {
         }
         return result;
     }
+
+    // public関数
+
+    /**
+     * Conditionのインスタンスに、API Gateway & Lambda で飛んできた「eventオブジェクt」の値をセットする。
+     * 出来ない場合、0以外の数値を返す。
+     */
+    this.findAwsProduct = (condition, callback) => {
+        // ORM用の「WHERE条件オブジェクト」作り。
+        const findSettings = makeFindSettings(condition);
+        // 検索を実行し、結果のオブジェクトをコールバックに返す
+        this.models.AwsProduct.findAll(findSettings).then((records) => {
+            callback(records);
+        });
+    };
 
 }
 

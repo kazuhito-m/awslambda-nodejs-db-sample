@@ -4,6 +4,15 @@ const Condition = require('./condition');
 const Converter = require('./converter');
 const XxxDao = require('./xxxdao');
 
+function makeResutl(code, data) {
+    const result = {};
+    result.code = code;
+    if (data !== null) {
+        result.data = data;
+    }
+    return result;
+}
+
 exports.handler = (event, context) => {
 
     // API Gateway & Lambda に来た「JSONパラメータ」を
@@ -21,14 +30,5 @@ exports.handler = (event, context) => {
     dao.findAwsProduct(condition, (records) => {
         context.succeed(makeResutl(0, records));
     });
-
+    
 };
-
-function makeResutl(code, data) {
-    const result = {};
-    result.code = code;
-    if (data !== null) {
-        result.data = data;
-    }
-    return result;
-}
