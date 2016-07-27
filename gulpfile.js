@@ -18,6 +18,7 @@ const paths = {
     models: './src/main/models/*.js',
     configs: 'src/main/config/*',
     srcs: './src/**',
+    src_dir: './src',
     work_dir: './work',
     work_mains: './work/main/*.js',
     work_tests: './work/test/*.js',
@@ -115,9 +116,23 @@ gulp.task('test', ['test-mapping-coverage-src'], () => {
 
 gulp.task('src-format', function() {
       return gulp.src(
-            [paths.mains, paths.configs], {
-                base: paths.main_dir
+            [paths.srcs], {
+                base: paths.src_dir
             })
         .pipe(prettify())
-        .pipe(gulp.dest(paths.main_dir));
+        .pipe(gulp.dest(paths.src_dir));
 });
+
+gulp.task('settings-format', function() {
+      return gulp.src(['./*.js'])
+        .pipe(prettify())
+        .pipe(gulp.dest('./'));
+});
+
+gulp.task('format', (cb) => {
+    return runSequence(
+        ['src-format', 'settings-format'],
+        cb
+    );
+});
+
