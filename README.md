@@ -23,11 +23,26 @@
 
 ## Setup for Develop
 
-- `npm install`
+1. `npm install`
+0. `npm test`
 
-## Deploy
+上記がエラー無く動けば、Setup完了。
+
+## Task commands
+
+### Deploy
 
 - `npm run deploy`
+
+### Developing mode
+
+- `npm run develop`
+
+常駐し、ファイルが変化があるたびにフォーマット、テスト、カバレッジ、静的解析など行います。
+
+### Test
+
+- `npm test`
 
 ## Bibliography
 
