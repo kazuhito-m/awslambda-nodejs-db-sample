@@ -12,19 +12,23 @@ exports.handler = (event, context) => {
     const condition = new Condition();
     const errCode = converter.setAndValidation(event, condition);
     if (errCode !== 0) {
-        context.succeed({
-            result: errCode
-        });
+        context.succeed(makeResutl(errCode));
         return;
     }
 
     // ORM用をラップしたDaoを作り検索を実行、結果のオブジェクトをレスポンスとして返す。
     const dao = new XxxDao();
     dao.findAwsProduct(condition, (records) => {
-        context.succeed({
-            result: 0,
-            data: records
-        });
+        context.succeed(makeResutl(0, records));
     });
 
 };
+
+function makeResutl(code, data) {
+    const result = {};
+    result.code = code;
+    if (data !== null) {
+        result.data = data;
+    }
+    return result;
+}
