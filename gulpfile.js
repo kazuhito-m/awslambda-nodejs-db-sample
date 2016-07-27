@@ -120,7 +120,12 @@ gulp.task('unit-test', () => {
 
 gulp.task('test', (cb) => {
     return runSequence(
-        ['clean'], ['clean', 'format'], ['test-src-copy'], ['test-transpile-power-assert'], ['test-mapping-coverage-src'], ['unit-test'], ['static-analysis-plato'],
+        'clean', ['clean', 'format'],
+        'test-src-copy',
+        'test-transpile-power-assert',
+        'test-mapping-coverage-src',
+        'unit-test',
+        'static-analysis-plato',
         cb
     );
 });
@@ -157,22 +162,11 @@ gulp.task('format', ['static-analysis-eslint'], (cb) => {
 // ESLintは「コンパイルがわり」に使う(構文おかしかったらコケてくれるように)
 gulp.task('static-analysis-eslint', () => {
     return gulp.src([paths.mains])
-        // .pipe(plumber({
-        //     // エラーをハンドル
-        //     errorHandler: (error) => {
-        //         const taskName = 'eslint';
-        //         const title = '[task]' + taskName + ' ' + error.plugin;
-        //         const errorMsg = 'error: ' + error.message;
-        //         // ターミナルにエラーを出力
-        //         console.error(title + '\n' + errorMsg);
-        //     }
-        // }))
         .pipe(eslint({
             useEslintrc: true
         })) // .eslintrc を参照
         .pipe(eslint.format())
         .pipe(eslint.failOnError())
-        // .pipe(plumber.stop());
 });
 
 // Platoは「テスト終わった後の解析」に使用する。
@@ -183,4 +177,21 @@ gulp.task('static-analysis-plato', () => {
                 trycatch: true
             }
         }));
+});
+
+// 「開発時にローカルでテスト回す(CIする)ような常駐タスク
+
+gulp.task('all-test-with-notify', () => {
+    return gulp.src(['./'])
+        // .pipe(plumber({
+        //     // エラーをハンドル
+        //     errorHandler: (error) => {
+        //         const taskName = 'test';
+        //         const title = '[task]' + taskName + ' ' + error.plugin;
+        //         const errorMsg = 'error: ' + error.message;
+        //         // ターミナルにエラーを出力
+        //         console.error(title + '\n' + errorMsg);
+        //     }
+        // }))
+        .pipe(runSequence('test'));
 });
