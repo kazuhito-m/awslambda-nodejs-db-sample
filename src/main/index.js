@@ -30,5 +30,5 @@ exports.handler = (event, context) => {
     dao.findAwsProduct(condition, (records) => {
         context.succeed(makeResutl(0, records));
     });
-    
+
 };
