@@ -1,3 +1,4 @@
+'use strict';
 const gulp = require('gulp');
 const gulpUtil = require('gulp-util');
 const espower = require("gulp-espower");
@@ -15,6 +16,9 @@ const plumber = require('gulp-plumber');
 const plato = require('gulp-plato');
 const through = require('through2');
 const watch = require('gulp-watch');
+const changed = require('gulp-changed');
+const rsync = require('gulp-rsync');
+
 
 // 定数的pathマップ
 const paths = {
@@ -34,6 +38,9 @@ const paths = {
     dist_dir: './work/dist',
     dist_all: './work/dist/**/*'
 };
+
+let isFormating = false;
+
 
 // distディレクトリのクリーンアップと作成済みのdist.zipの削除
 gulp.task('clean', (cb) => {
@@ -121,7 +128,9 @@ gulp.task('unit-test', () => {
 
 gulp.task('test', (cb) => {
     return runSequence(
-        'clean', ['clean', 'format'],
+        'clean',
+        'static-analysis-eslint', // コードフォーマットがズタズタにならないため、事前にESLintでチェック。
+        'format',
         'test-src-copy',
         'test-transpile-power-assert',
         'test-mapping-coverage-src',
@@ -140,7 +149,9 @@ gulp.task('src-format', function() {
             [paths.srcs], {
                 base: paths.src_dir
             })
-        .pipe(prettify())
+        .pipe(prettify({
+            mode: 'VERIFY_AND_WRITE'
+        }))
         .pipe(gulp.dest(paths.src_dir));
 });
 
@@ -150,8 +161,12 @@ gulp.task('settings-format', function() {
         .pipe(gulp.dest('./'));
 });
 
-// コードフォーマットがズタズタにならないため、事前にESLintでチェック。
-gulp.task('format', ['static-analysis-eslint'], (cb) => {
+gulp.task('format', (cb) => {
+    if (isFormating) {
+        console.log('ソースフォーマット直後のため、抑制。');
+        return runSequence();
+    }
+    isFormating = true;
     return runSequence(
         ['src-format', 'settings-format'],
         cb
@@ -217,14 +232,18 @@ gulp.task('all-test-with-notify', () => {
         }))
 });
 
-
 gulp.task('sample', () => {
+    if (isFormating) {
+        console.info('コードフォーマット中のため、ランニング自体を抑制。');
+        return;
+    }
     return runSequence(
         ['test'], (error, two) => {
+            isFormating = false;
             console.log('コールバックが呼ばれるタイミングは、今');
             console.log("ふたつ目のコールバック" + two);
             if (error === undefined) {
-                return false;
+                return;
             }
             console.log("出てくるものはこれ: [" + error + "] 終わり")
             console.log("message: [" + error.message + "] 終わり");
@@ -234,27 +253,42 @@ gulp.task('sample', () => {
                 properties += prop + "=" + error[prop] + "\n";
             }
             // console.log("プロパテイ一覧 : " + properties)
-            isRun = false;
-            return false;
         }
     );
 });
 
-let isRunning;
 gulp.task('develop', () => {
-    return watch('./src/**', {
+    return watch(paths.srcs, {
         ignoreInitial: true,
         readDelay: 500 // 再帰するので抑制を狙ったが…いまいち効力が解らない    
     }, (event) => {
-        console.log("そもそも、ここを通る時っていつなん？");
-        if (isRunning) {
-            console.log("再帰できたから、脱出！");
-            return;
-        } else {
-            isRunning = true;
-            // gulp.start('all-test-with-notify');
-            gulp.start('sample');
-            isRunning = false;
-        }
+        // gulp.start('all-test-with-notify');
+        gulp.start('sample');
     });
+});
+
+gulp.task('diff-test', function() {
+    gulp.src(
+        [paths.srcs], {
+            base: paths.src_dir
+        })
+    .pipe(prettify({
+        mode: 'VERIFY_AND_WRITE'
+    }))
+    .pipe(gulp.dest('./diffいけるか'));
+});
+
+gulp.task("sabun", function(){
+    gulp.src('./diffいけるか/**')
+        .pipe(changed(paths.srcs,{hasChanged : changed.compareSha1Digest}))
+        .pipe(gulp.dest( './差分だけ' ))
+});
+
+gulp.task('sabun2', function() {
+  gulp.src('./diffいけるか/**')
+    .pipe(rsync({
+      recursive: true,
+      destination: '/tmp/test2',
+      incremental: true
+    }));
 });
