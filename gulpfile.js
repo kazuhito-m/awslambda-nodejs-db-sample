@@ -13,7 +13,8 @@ const prettify = require('gulp-jsbeautifier');
 const eslint = require('gulp-eslint');
 const plumber = require('gulp-plumber');
 const plato = require('gulp-plato');
-
+const through = require('through2');
+const watch = require('gulp-watch');
 
 // 定数的pathマップ
 const paths = {
@@ -183,15 +184,77 @@ gulp.task('static-analysis-plato', () => {
 
 gulp.task('all-test-with-notify', () => {
     return gulp.src(['./'])
-        // .pipe(plumber({
-        //     // エラーをハンドル
-        //     errorHandler: (error) => {
-        //         const taskName = 'test';
-        //         const title = '[task]' + taskName + ' ' + error.plugin;
-        //         const errorMsg = 'error: ' + error.message;
-        //         // ターミナルにエラーを出力
-        //         console.error(title + '\n' + errorMsg);
-        //     }
-        // }))
-        .pipe(runSequence('test'));
+        .pipe(plumber({
+            // エラーをハンドル
+            errorHandler: (error) => {
+                const taskName = 'test';
+                const title = '[task]' + taskName + ' ' + error.plugin;
+                const errorMsg = 'error: ' + error.message;
+                // ターミナルにエラーを出力
+                console.error(title + '\n' + errorMsg);
+            }
+        }))
+        .pipe(through.obj((file, encoding, callback) => {
+            runSequence(
+                ['test'], (error, two) => {
+                    console.log('コールバックが呼ばれるタイミングは、今');
+                    console.log("ふたつ目のコールバック" + two);
+                    if (error === undefined) {
+                        return false;
+                    }
+                    console.log("出てくるものはこれ: [" + error + "] 終わり")
+                    console.log("message: [" + error.message + "] 終わり");
+                    console.log("plugin : [" + error.plugin + "] 終わり");
+                    let properties;
+                    for (var prop in error) {
+                        properties += prop + "=" + error[prop] + "\n";
+                    }
+                    // console.log("プロパテイ一覧 : " + properties)
+                    return false;
+                }
+            );
+            callback(null, file);
+        }))
+});
+
+
+gulp.task('sample', () => {
+    return runSequence(
+        ['test'], (error, two) => {
+            console.log('コールバックが呼ばれるタイミングは、今');
+            console.log("ふたつ目のコールバック" + two);
+            if (error === undefined) {
+                return false;
+            }
+            console.log("出てくるものはこれ: [" + error + "] 終わり")
+            console.log("message: [" + error.message + "] 終わり");
+            console.log("plugin : [" + error.plugin + "] 終わり");
+            let properties;
+            for (var prop in error) {
+                properties += prop + "=" + error[prop] + "\n";
+            }
+            // console.log("プロパテイ一覧 : " + properties)
+            isRun = false;
+            return false;
+        }
+    );
+});
+
+let isRunning;
+gulp.task('develop', () => {
+    return watch('./src/**', {
+        ignoreInitial: true,
+        readDelay: 500 // 再帰するので抑制を狙ったが…いまいち効力が解らない    
+    }, (event) => {
+        console.log("そもそも、ここを通る時っていつなん？");
+        if (isRunning) {
+            console.log("再帰できたから、脱出！");
+            return;
+        } else {
+            isRunning = true;
+            // gulp.start('all-test-with-notify');
+            gulp.start('sample');
+            isRunning = false;
+        }
+    });
 });

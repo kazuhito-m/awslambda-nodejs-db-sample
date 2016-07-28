@@ -21,6 +21,7 @@
 - [gulpタスク実行中にエラーが出たらデスクトップ通知を出す](http://qiita.com/nakajmg/items/8add9c58ea28a8f31eed)
 - [gulpタスクを終了させない為の「gulp-plumber」](http://blog.webcreativepark.net/2014/05/14-112523.html)
 - [途中のタスクが死ねば止まるが、watchは止まらない](http://chaika.hatenablog.com/entry/2015/09/10/070000)
+- [gulp watchコマンドでファイル追加を検知しない場合の対処方](http://qiita.com/narikei/items/1d27df2f35a735228a66)
 
 ## AWS Lambda & API Gateway の基本的なところ
 
