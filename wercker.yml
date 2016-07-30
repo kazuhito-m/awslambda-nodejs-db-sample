@@ -1,0 +1,12 @@
+box: node
+build:
+    steps:
+        - npm-install
+        - npm-test
+    after-steps:
+        - sherzberg/slack-notify:
+            subdomain: k-and-m
+            token: $SLACK_TOKEN
+            channel: "#ci-build"
+            username: wercker
+            icon_url: https://avatars3.githubusercontent.com/u/1695193?s=140
