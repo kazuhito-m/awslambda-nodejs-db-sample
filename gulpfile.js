@@ -18,7 +18,7 @@ const through = require('through2');
 const watch = require('gulp-watch');
 const changed = require('gulp-changed');
 const rsync = require('gulp-rsync');
-
+const fs = require('fs');
 
 // 定数的pathマップ
 const paths = {
@@ -36,11 +36,11 @@ const paths = {
     coverage_dir: './coverage',
     report_dir: './report',
     dist_dir: './work/dist',
-    dist_all: './work/dist/**/*'
+    dist_all: './work/dist/**/*',
+    format_dir: 'work/format'
 };
 
 let isFormating = false;
-
 
 // distディレクトリのクリーンアップと作成済みのdist.zipの削除
 gulp.task('clean', (cb) => {
@@ -144,18 +144,19 @@ gulp.task('test', (cb) => {
 
 // ソースフォーマット周り
 
-gulp.task('src-format', function() {
-    return gulp.src(
-            [paths.srcs], {
-                base: paths.src_dir
-            })
-        .pipe(prettify({
-            mode: 'VERIFY_AND_WRITE'
-        }))
-        .pipe(gulp.dest(paths.src_dir));
-});
+// 下で定義しなおし。
+// gulp.task('src-format', function() {
+//     return gulp.src(
+//             [paths.srcs], {
+//                 base: paths.src_dir
+//             })
+//         .pipe(prettify({
+//             mode: 'VERIFY_AND_WRITE'
+//         }))
+//         .pipe(gulp.dest(paths.src_dir));
+// });
 
-gulp.task('settings-format', function() {
+gulp.task('settings-format', () => {
     return gulp.src(['./*.js'])
         .pipe(prettify())
         .pipe(gulp.dest('./'));
@@ -168,7 +169,8 @@ gulp.task('format', (cb) => {
     }
     isFormating = true;
     return runSequence(
-        ['src-format', 'settings-format'],
+        'src-format',
+        'settings-format',
         cb
     );
 });
@@ -267,28 +269,57 @@ gulp.task('develop', () => {
     });
 });
 
-gulp.task('diff-test', function() {
-    gulp.src(
-        [paths.srcs], {
-            base: paths.src_dir
-        })
-    .pipe(prettify({
-        mode: 'VERIFY_AND_WRITE'
-    }))
-    .pipe(gulp.dest('./diffいけるか'));
+// コードフォーマット ＆ 差分だけソース側に書き戻し機能。
+
+gulp.task('formating-and-dump', () => {
+    return gulp.src(
+            [paths.srcs], {
+                base: paths.src_dir
+            })
+        .pipe(prettify({
+            mode: 'VERIFY_AND_WRITE'
+        }))
+        .pipe(gulp.dest(paths.format_dir));
 });
 
-gulp.task("sabun", function(){
-    gulp.src('./diffいけるか/**')
-        .pipe(changed(paths.srcs,{hasChanged : changed.compareSha1Digest}))
-        .pipe(gulp.dest( './差分だけ' ))
+function fileCopy(src, dist) {
+    const r = fs.createReadStream(src);
+    const w = fs.createWriteStream(dist);
+    r.pipe(w);
+}
+
+function diff(src, dest) {
+    return fs.readFileSync(src, 'utf-8') !== fs.readFileSync(dest, 'utf-8');
+}
+
+// 指定されたディレクトリから再帰的にファイルを抽出し、コールバックに投げ込む。
+function directoryWork(path, fileCallback) {
+    fs.readdir(path, (err, files) => {
+        files.forEach((file) => {
+            const fullPath = path + '/' + file;
+            if (fs.statSync(fullPath).isDirectory()) {
+                directoryWork(fullPath, fileCallback); // ディレクトリなら再帰
+            } else {
+                fileCallback(fullPath); // ファイルならコールバックで通知
+            }
+        });
+    });
+}
+
+gulp.task('diff-and-copyfile', () => {
+    directoryWork(paths.format_dir, (filePath) => {
+        const mainPath = filePath.replace(paths.format_dir, paths.src_dir);
+        if (diff(filePath, mainPath)) {
+            console.log('Code formatting : ' + mainPath);
+            fileCopy(filePath　, mainPath);
+        }
+    });
 });
 
-gulp.task('sabun2', function() {
-  gulp.src('./diffいけるか/**')
-    .pipe(rsync({
-      recursive: true,
-      destination: '/tmp/test2',
-      incremental: true
-    }));
+gulp.task('src-format', (cb) => {
+    return runSequence(
+        'formating-and-dump',
+        'diff-and-copyfile',
+        cb
+    );
 });
