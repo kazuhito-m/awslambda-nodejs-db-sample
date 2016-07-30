@@ -29,5 +29,6 @@ exports.handler = (event, context) => {
     const dao = new XxxDao();
     dao.findAwsProduct(condition, (records) => {
         context.succeed(makeResutl(0, records));
-});
+    });
+
 };
