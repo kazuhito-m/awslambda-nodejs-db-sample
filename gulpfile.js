@@ -19,11 +19,14 @@ const watch = require('gulp-watch');
 const changed = require('gulp-changed');
 const rsync = require('gulp-rsync');
 const fs = require('fs');
+const notify = require('gulp-notify');
+const notifier = require('node-notifier');
 
 // 定数的pathマップ
 const paths = {
     mains: './src/main/*.js',
     main_dir: './src/main',
+    tests: './src/test/*.js',
     models: './src/main/models/*.js',
     configs: 'src/main/config/*',
     srcs: './src/**',
@@ -39,8 +42,6 @@ const paths = {
     dist_all: './work/dist/**/*',
     format_dir: 'work/format'
 };
-
-let isFormating = false;
 
 // distディレクトリのクリーンアップと作成済みのdist.zipの削除
 gulp.task('clean', (cb) => {
@@ -98,7 +99,10 @@ gulp.task('test-src-copy', () => {
 // 普通のassertで書かれたテストを、pwoer-assertで書いたテストへトランスパイル。
 gulp.task('test-transpile-power-assert', () => {
     return gulp.src(paths.work_tests)
+        .pipe(plumber())
         .pipe(espower())
+        .on('error', gulpUtil.log)
+        .pipe(plumber.stop())
         .pipe(gulp.dest(paths.ps_test_dir));
 });
 
@@ -114,16 +118,19 @@ gulp.task('unit-test', () => {
     return gulp.src([paths.ps_tests], {
             read: false
         })
+        .pipe(plumber({
+            errorHandler: notify.onError('[unit-test(<%=error.plugin %>)]<%= error.message %>')
+        }))
         .pipe(mocha({
             reporter: 'list'
         }))
-        .on('error', gulpUtil.log)
         .pipe(istanbul.writeReports())
         .pipe(istanbul.enforceThresholds({
             thresholds: {
                 global: 10
             }
-        }));
+        }))
+        .pipe(plumber.stop());
 });
 
 gulp.task('test', (cb) => {
@@ -144,18 +151,6 @@ gulp.task('test', (cb) => {
 
 // ソースフォーマット周り
 
-// 下で定義しなおし。
-// gulp.task('src-format', function() {
-//     return gulp.src(
-//             [paths.srcs], {
-//                 base: paths.src_dir
-//             })
-//         .pipe(prettify({
-//             mode: 'VERIFY_AND_WRITE'
-//         }))
-//         .pipe(gulp.dest(paths.src_dir));
-// });
-
 gulp.task('settings-format', () => {
     return gulp.src(['./*.js'])
         .pipe(prettify())
@@ -163,11 +158,6 @@ gulp.task('settings-format', () => {
 });
 
 gulp.task('format', (cb) => {
-    if (isFormating) {
-        console.log('ソースフォーマット直後のため、抑制。');
-        return runSequence();
-    }
-    isFormating = true;
     return runSequence(
         'src-format',
         'settings-format',
@@ -195,78 +185,6 @@ gulp.task('static-analysis-plato', () => {
                 trycatch: true
             }
         }));
-});
-
-// 「開発時にローカルでテスト回す(CIする)ような常駐タスク
-
-gulp.task('all-test-with-notify', () => {
-    return gulp.src(['./'])
-        .pipe(plumber({
-            // エラーをハンドル
-            errorHandler: (error) => {
-                const taskName = 'test';
-                const title = '[task]' + taskName + ' ' + error.plugin;
-                const errorMsg = 'error: ' + error.message;
-                // ターミナルにエラーを出力
-                console.error(title + '\n' + errorMsg);
-            }
-        }))
-        .pipe(through.obj((file, encoding, callback) => {
-            runSequence(
-                ['test'], (error, two) => {
-                    console.log('コールバックが呼ばれるタイミングは、今');
-                    console.log("ふたつ目のコールバック" + two);
-                    if (error === undefined) {
-                        return false;
-                    }
-                    console.log("出てくるものはこれ: [" + error + "] 終わり")
-                    console.log("message: [" + error.message + "] 終わり");
-                    console.log("plugin : [" + error.plugin + "] 終わり");
-                    let properties;
-                    for (var prop in error) {
-                        properties += prop + "=" + error[prop] + "\n";
-                    }
-                    // console.log("プロパテイ一覧 : " + properties)
-                    return false;
-                }
-            );
-            callback(null, file);
-        }))
-});
-
-gulp.task('sample', () => {
-    if (isFormating) {
-        console.info('コードフォーマット中のため、ランニング自体を抑制。');
-        return;
-    }
-    return runSequence(
-        ['test'], (error, two) => {
-            isFormating = false;
-            console.log('コールバックが呼ばれるタイミングは、今');
-            console.log("ふたつ目のコールバック" + two);
-            if (error === undefined) {
-                return;
-            }
-            console.log("出てくるものはこれ: [" + error + "] 終わり")
-            console.log("message: [" + error.message + "] 終わり");
-            console.log("plugin : [" + error.plugin + "] 終わり");
-            let properties;
-            for (var prop in error) {
-                properties += prop + "=" + error[prop] + "\n";
-            }
-            // console.log("プロパテイ一覧 : " + properties)
-        }
-    );
-});
-
-gulp.task('develop', () => {
-    return watch(paths.srcs, {
-        ignoreInitial: true,
-        readDelay: 500 // 再帰するので抑制を狙ったが…いまいち効力が解らない    
-    }, (event) => {
-        // gulp.start('all-test-with-notify');
-        gulp.start('sample');
-    });
 });
 
 // コードフォーマット ＆ 差分だけソース側に書き戻し機能。
@@ -322,4 +240,40 @@ gulp.task('src-format', (cb) => {
         'diff-and-copyfile',
         cb
     );
+});
+
+// 「開発時にローカルでテスト回す(CIする)ような常駐タスク
+
+gulp.task('all-test-with-notify', () => {
+    console.log('all-test-with-notify-Pの最初。');
+    return gulp.src(['./'])
+        .pipe(plumber({
+            errorHandler: notify.onError('[(<%=error.plugin %>)]<%= error.message %>')
+        }))
+        .pipe(through.obj((file, encoding, callback) => {
+            runSequence(
+                ['test'], (error) => {
+                    if (error === undefined) {
+                        return;
+                    }
+                    notifier.notify({
+                        'title': 'Error running Gulp',
+                        'message': '[' + error.plugin + ']\n' + error.message,
+                        'sound': true
+                    });
+                }
+            );
+            callback(null, file);
+        }))
+        .pipe(plumber.stop());
+
+});
+
+gulp.task('develop', () => {
+    return watch(paths.srcs, {
+        ignoreInitial: true,
+        readDelay: 500 // 再帰するので抑制を狙ったが…いまいち効力が解らない    
+    }, (event) => {
+        gulp.start('all-test-with-notify');
+    });
 });
