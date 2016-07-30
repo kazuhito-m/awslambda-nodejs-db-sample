@@ -12,16 +12,22 @@
 - [Coffie Scriptの場合](http://qiita.com/penta515/items/450129b6e994d348fa81)
 - [gulp-awslambdaでデプロイする場合](http://qiita.com/u-minor/items/17802910bcf54e10625f)
 - [始めの一歩](https://osdn.jp/magazine/12/04/11/0618228/2)
+- [AWS Lambdaのための関数のローカル開発とテスト](http://qiita.com/imaifactory/items/092e32b4fc0f69a94061)
 
 ## guip回り
 
 - [run-sequence](https://www.npmjs.com/package/run-sequence)
 - [gulp でディレクトリ構造を維持したコピー](http://akabeko.me/blog/2015/01/gulp-copy-keep-dir-structure/)
 - [タスクランナーgulp.js最速入門](http://blog.anatoo.jp/entry/20140420/1397995711)
-- [gulpタスク実行中にエラーが出たらデスクトップ通知を出す](http://qiita.com/nakajmg/items/8add9c58ea28a8f31eed)
 - [gulpタスクを終了させない為の「gulp-plumber」](http://blog.webcreativepark.net/2014/05/14-112523.html)
 - [途中のタスクが死ねば止まるが、watchは止まらない](http://chaika.hatenablog.com/entry/2015/09/10/070000)
 - [gulp watchコマンドでファイル追加を検知しない場合の対処方](http://qiita.com/narikei/items/1d27df2f35a735228a66)
+
+### ノーティフィケーション(通知)回り
+
+- [gulp-plumberとgulp-notifyを使ったデスクトップ通知](http://whiskers.nukos.kitchen/2014/12/06/gulp-notify.html)
+- [gulpタスク実行中にエラーが出たらデスクトップ通知を出す](http://qiita.com/nakajmg/items/8add9c58ea28a8f31eed)
+- [gulp-notify(本家)](https://www.npmjs.com/package/gulp-notify#notifystring)
 
 ## AWS Lambda & API Gateway の基本的なところ
 
@@ -55,6 +61,7 @@
 ## DBテストについて(単体テストでないもの)
 
 - [node.jsでDB周りのテストをする](http://yume-build.com/blog/archives/307)
+- [モダンぽいJavaScriptテスト環境の構築メモ](http://blog.h13i32maru.jp/entry/2014/12/29/163209)
 
 ## DBマイグレーション
 
@@ -89,6 +96,7 @@
 - [power-assertの使い方](http://efcl.info/2014/0406/res3809/)
 - [node.jsでテストのカバレッジを取る](http://qiita.com/iwata-n@github/items/1e8f629eb5b429a49e6d)
 - [ChaiJS公式](http://qiita.com/iwata-n@github/items/1e8f629eb5b429a49e6d)
+- [assertの種類(Chai)](http://chaijs.com/api/assert/)
 
 ## 静的解析
 
@@ -132,3 +140,11 @@
   - babelを使わない限り、nodeをいくら最新にしてもES6が完全に使えるわけではない…ので今回はレガシーな記述で。
 - [ES6使う時のbabel周り(英語)](http://mammal.io/articles/using-es6-today/)
 - [Node-v0.12からデフォルトでES6の一部が使えるようになった](http://d.hatena.ne.jp/jovi0608/20140418/1397789018)
+- [node.jsでファイル・ディレクトリの監視](http://d.hatena.ne.jp/zebevogue/20130922/1379822059)
+- [JavaScriptのオブジェクトについて考察してみた](http://taiju.hatenablog.com/entry/20090612/1244765780)
+- [node.jsで関数をexportする方法](http://kaworu.jpn.org/javascript/node.js%E3%81%A7%E9%96%A2%E6%95%B0%E3%82%92export%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95)
+- [Node.js ファイルをコピーするたぶん一番簡単な方法](http://qiita.com/PianoScoreJP/items/ec3d1b64d5e3a3bfa3b4)
+- [Node.jsでファイルをコピーする](http://qiita.com/okunishinishi@github/items/ec5cba6602a5bb872f13)
+- [JavaScriptの配列の使い方](http://qiita.com/takeharu/items/d75f96f81ff83680013f)
+- [指定文字を置換、削除する方法](https://syncer.jp/javascript-reverse-reference/how-to-replace-text)
+- [Node.jsでファイルを読み込むサンプル](http://blog.codebook-10000.com/entry/20130730/1375202970)
