@@ -26,7 +26,7 @@ describe('lambda.handler', () => {
             }
         };
 
-        const lambda =ｚ require('../main/index');
+        const lambda = require('../main/index');
         lambda.handler(event, context);
     });
 
