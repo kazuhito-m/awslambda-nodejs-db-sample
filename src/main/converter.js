@@ -15,7 +15,7 @@ function Converter() {
             return null;
         }
         return value;
-    }
+    };
 
     /**
      * 指定したタイプに合致しているかのチェック。
