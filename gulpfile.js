@@ -99,9 +99,10 @@ gulp.task('test-src-copy', () => {
 // 普通のassertで書かれたテストを、pwoer-assertで書いたテストへトランスパイル。
 gulp.task('test-transpile-power-assert', () => {
     return gulp.src(paths.work_tests)
-        .pipe(plumber())
+        .pipe(plumber({
+            errorHandler: notify.onError('[test-transpile(<%=error.plugin %>)]\n<%= error.message %>')
+        }))
         .pipe(espower())
-        .on('error', gulpUtil.log)
         .pipe(plumber.stop())
         .pipe(gulp.dest(paths.ps_test_dir));
 });
