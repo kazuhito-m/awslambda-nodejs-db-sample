@@ -10,7 +10,7 @@ function Converter() {
     /**
      * undifind や empty など「値なし」を表す値をすべてnullにおしなべる。
      */
-    function nullize(value) {
+    this.nullize = (value) => {
         if (value === undefined) {
             return null;
         }
@@ -33,13 +33,13 @@ function Converter() {
      */
     this.setAndValidation = (event, cond) => {
 
-        const productName = nullize(event.productName);
+        const productName = this.nullize(event.productName);
         if (!isTypeNullable('string', productName)) {
             return 101;
         }
         cond.productName = productName;
 
-        const miuraUse = nullize(event.miuraUse);
+        const miuraUse = this.nullize(event.miuraUse);
         if (!isTypeNullable('boolean', miuraUse)) {
             return 102;
         }
