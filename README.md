@@ -2,7 +2,7 @@
 
 ## Latest integration
 
-+ master : XXX by Wercker
++ master : [![wercker status](https://app.wercker.com/status/55f31c7f3c2ee4e6ff4412a86f1c332f/s "wercker status")](https://app.wercker.com/project/bykey/55f31c7f3c2ee4e6ff4412a86f1c332f) by Wercker
 
 ## What's this
 
