@@ -15,7 +15,8 @@
     "deploy": "gulp deploy",
     "mig_create": "cd src/main/ && sequelize migration:create",
     "p_migrate": "cd src/main/ && sequelize db:migrate --env production",
-    "p_migrate_undo": "cd src/main/ && sequelize db:migrate:undo --env production"
+    "p_migrate_undo": "cd src/main/ && sequelize db:migrate:undo --env production",
+    "develop": "gulp develop"
   },
   "repository": {
     "type": "git",
