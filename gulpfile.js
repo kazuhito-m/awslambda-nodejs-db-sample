@@ -245,7 +245,6 @@ gulp.task('src-format', (cb) => {
 // 「開発時にローカルでテスト回す(CIする)ような常駐タスク
 
 gulp.task('all-test-with-notify', () => {
-    console.log('all-test-with-notify-Pの最初。');
     return gulp.src(['./'])
         .pipe(plumber({
             errorHandler: notify.onError('[(<%=error.plugin %>)]<%= error.message %>')
